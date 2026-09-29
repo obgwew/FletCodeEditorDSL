@@ -1,9 +1,10 @@
 # flet-code-editor-dsl
-> FletCodeEditorDSL: A real Flutter code editor exposed as a [Flet](https://flet.dev) control, with a small Python DSL for defining syntax-highlighting rules and bracket/quote pair matching.
+
+> A real Flutter code editor exposed as a [Flet](https://flet.dev) control, with a small Python DSL for defining syntax-highlighting rules and bracket/quote pair matching.
 
 ![Python](https://img.shields.io/badge/python-%3E%3D3.10-blue)
 ![Flet](https://img.shields.io/badge/flet-%3E%3D0.80-informational)
-![Version](https://img.shields.io/badge/version-0.1.0-green)
+[![PyPI](https://img.shields.io/pypi/v/flet-code-editor-dsl)](https://pypi.org/project/flet-code-editor-dsl/)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 
 ---
@@ -14,9 +15,9 @@
 2. [Features](#features)
 3. [Requirements](#requirements)
 4. [Installation](#installation)
-   - [Install directly from GitHub with pip](#option-1-install-directly-from-github-with-pip)
-   - [Use in a Flet app (`pyproject.toml`)](#option-2-declare-it-as-a-dependency-in-your-flet-app)
-   - [Pin to a branch, tag or commit](#pinning-a-version)
+   - [Install from PyPI (recommended)](#option-1-install-from-pypi-recommended)
+   - [Install directly from GitHub](#option-2-install-directly-from-github)
+   - [Pin to a branch, tag or commit](#pinning-a-github-version)
    - [Local / editable install](#option-3-local-editable-install)
 5. [Quick Start](#quick-start)
 6. [API Reference](#api-reference)
@@ -77,21 +78,15 @@ This makes it well suited for custom languages, configuration formats, templatin
 
 ## Installation
 
-### Option 1: Install directly from GitHub with pip
+The package is published on [PyPI](https://pypi.org/project/flet-code-editor-dsl/). You can also install it directly from GitHub.
+
+### Option 1: Install from PyPI (recommended)
 
 ```bash
-pip install "git+https://github.com/obgwew/flet-code-editor-dsl.git"
+pip install flet-code-editor-dsl
 ```
 
-Or, using the explicit direct-reference form:
-
-```bash
-pip install "flet-code-editor-dsl @ git+https://github.com/obgwew/flet-code-editor-dsl.git"
-```
-
-### Option 2: Declare it as a dependency in your Flet app
-
-Add the package to the `dependencies` of your app's `pyproject.toml`:
+To use it in a Flet app, add it to the `dependencies` of your app's `pyproject.toml`:
 
 ```toml
 [project]
@@ -100,7 +95,7 @@ version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
   "flet",
-  "flet-code-editor-dsl @ git+https://github.com/obgwew/flet-code-editor-dsl.git",
+  "flet-code-editor-dsl",
 ]
 ```
 
@@ -111,14 +106,60 @@ pip install -e .
 flet run
 ```
 
+Remember that the library must be declared in `pyproject.toml` and the app built once with `flet build`. See [Important: First Build Required](#important-first-build-required).
+
 If you use a `requirements.txt` instead:
+
+```text
+flet
+flet-code-editor-dsl
+```
+
+To pin an exact version (recommended for reproducible builds):
+
+```bash
+pip install "flet-code-editor-dsl==0.1.0"
+```
+
+```toml
+dependencies = ["flet", "flet-code-editor-dsl==0.1.0"]
+```
+
+To upgrade to the latest release:
+
+```bash
+pip install --upgrade flet-code-editor-dsl
+```
+
+### Option 2: Install directly from GitHub
+
+Use this option to get unreleased changes from a branch, tag, or commit.
+
+```bash
+pip install "git+https://github.com/obgwew/flet-code-editor-dsl.git"
+```
+
+Or, using the explicit direct-reference form (also valid inside `pyproject.toml`):
+
+```bash
+pip install "flet-code-editor-dsl @ git+https://github.com/obgwew/flet-code-editor-dsl.git"
+```
+
+```toml
+dependencies = [
+  "flet",
+  "flet-code-editor-dsl @ git+https://github.com/obgwew/flet-code-editor-dsl.git",
+]
+```
+
+In a `requirements.txt`:
 
 ```text
 flet
 git+https://github.com/obgwew/flet-code-editor-dsl.git
 ```
 
-### Pinning a version
+### Pinning a GitHub version
 
 Append `@<ref>` to the URL, where `<ref>` is a branch, tag, or commit hash:
 
@@ -499,7 +540,7 @@ ft.run(main)
 
 In practice this means:
 
-1. **Declare the library in your app's `pyproject.toml`.** The package must be listed under `[project] dependencies` (see [Installation](#option-2-declare-it-as-a-dependency-in-your-flet-app)). This is what tells Flet the extension is part of your app.
+1. **Declare the library in your app's `pyproject.toml`.** The package must be listed under `[project] dependencies` (see [Installation](#option-1-install-from-pypi-recommended)). This is what tells Flet the extension is part of your app.
 2. **Build your app once** with `flet build <platform>`. This compiles the extension into the client.
 3. **Run your app normally afterwards.** After the first build, the control works with `flet run` as well, as long as `pyproject.toml` still declares the library.
 
@@ -520,7 +561,7 @@ If the control does not appear (for example, an "unknown control" error), check 
 
 ## Building Your App
 
-Flutter extensions are compiled into the Flet client, so you must build a custom client for your target platform. Make sure the package is listed in your app's `pyproject.toml` dependencies (see [Installation](#option-2-declare-it-as-a-dependency-in-your-flet-app)), then run:
+Flutter extensions are compiled into the Flet client, so you must build a custom client for your target platform. Make sure the package is listed in your app's `pyproject.toml` dependencies (see [Installation](#option-1-install-from-pypi-recommended)), then run:
 
 ```bash
 # Desktop
