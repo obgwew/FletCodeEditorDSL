@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: flet-code-editor-dsl
+Version: 0.1.0
+Summary: A real Flutter code editor exposed as a Flet control
+Requires-Python: >=3.10
+Requires-Dist: flet
