@@ -35,7 +35,8 @@
 13. [Known Limitations](#known-limitations)
 14. [Troubleshooting](#troubleshooting)
 15. [Contributing](#contributing)
-16. [License](#license)
+16. [Sponsors](#sponsors)
+17. [License](#license)
 
 ---
 
@@ -605,6 +606,36 @@ Contributions are welcome.
 4. Push the branch and open a Pull Request describing the change and its motivation.
 
 Please open an issue first for larger changes or new features so the design can be discussed.
+
+## Sponsors
+
+Development of `flet-code-editor-dsl` is supported by its sponsors. Their contributions help cover maintenance time, testing across platforms, and new features.
+
+### Our Sponsors
+
+<!--
+  Add sponsors below. Suggested format:
+
+  <a href="https://example.com"><img src="https://example.com/logo.png" alt="Sponsor Name" height="60"></a>
+-->
+
+*Your logo could be here. [Become the first sponsor!](https://github.com/sponsors/obgwew)*
+
+### Become a Sponsor
+
+If this library saves you time, please consider supporting it:
+
+- [Sponsor on GitHub](https://github.com/sponsors/obgwew)
+
+| Tier | Benefit |
+|------|---------|
+| **Supporter** | Your name listed in this section. |
+| **Silver** | Your name and link listed in this section. |
+| **Gold** | Your logo and link displayed prominently at the top of this section. |
+
+Sponsorship is entirely optional and does not affect the [license](#license) or the features available to anyone. Thank you to everyone who supports open-source work.
+
+---
 
 ## License
 
