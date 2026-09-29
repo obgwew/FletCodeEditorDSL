@@ -29,12 +29,13 @@
 7. [How the Highlighting Engine Works](#how-the-highlighting-engine-works)
 8. [Controlling the Editor at Runtime](#controlling-the-editor-at-runtime)
 9. [Complete Example](#complete-example)
-10. [Building Your App](#building-your-app)
-11. [Project Structure](#project-structure)
-12. [Known Limitations](#known-limitations)
-13. [Troubleshooting](#troubleshooting)
-14. [Contributing](#contributing)
-15. [License](#license)
+10. [Important: First Build Required](#important-first-build-required)
+11. [Building Your App](#building-your-app)
+12. [Project Structure](#project-structure)
+13. [Known Limitations](#known-limitations)
+14. [Troubleshooting](#troubleshooting)
+15. [Contributing](#contributing)
+16. [License](#license)
 
 ---
 
@@ -70,7 +71,7 @@ This makes it well suited for custom languages, configuration formats, templatin
 | Flutter   | `>= 3.10.0` |
 | Git       | Required for installing from GitHub |
 
-> **Note:** Because this package contains a Flutter extension, it only takes effect when your app is packaged with `flet build` (or run with a Flet client that includes the extension). See [Building Your App](#building-your-app).
+> **Note:** Because this package contains a Flutter extension, your app must declare it in `pyproject.toml` and be built once with `flet build`. After that first build the control also works with `flet run`. See [Important: First Build Required](#important-first-build-required).
 
 ---
 
@@ -492,6 +493,31 @@ ft.run(main)
 
 ---
 
+## Important: First Build Required
+
+`flet-code-editor-dsl` is not a pure-Python package. Its editor widget is written in Dart/Flutter, and Flutter code must be **compiled into the Flet client** before the control can be displayed. The stock Flet client does not include it.
+
+In practice this means:
+
+1. **Declare the library in your app's `pyproject.toml`.** The package must be listed under `[project] dependencies` (see [Installation](#option-2-declare-it-as-a-dependency-in-your-flet-app)). This is what tells Flet the extension is part of your app.
+2. **Build your app once** with `flet build <platform>`. This compiles the extension into the client.
+3. **Run your app normally afterwards.** After the first build, the control works with `flet run` as well, as long as `pyproject.toml` still declares the library.
+
+> **Key requirement:** the library must be defined in your `pyproject.toml`. If it is only installed manually with `pip` and not declared there, Flet will not include the extension and the control will not appear.
+
+**When do you need to rebuild?**
+
+| Change | Rebuild needed? |
+|--------|-----------------|
+| Editing Python code, `value`, `rules`, `pairs`, colors, `strict`, font settings, layout | No. These are sent to the client at runtime. |
+| Updating `flet-code-editor-dsl` to a new version (its Dart code changed) | Yes. |
+| Upgrading Flet itself to a new major/minor version | Yes. |
+| Adding or removing other Flet extensions | Yes. |
+
+If the control does not appear (for example, an "unknown control" error), check first that the library is declared in `pyproject.toml`, then build again.
+
+---
+
 ## Building Your App
 
 Flutter extensions are compiled into the Flet client, so you must build a custom client for your target platform. Make sure the package is listed in your app's `pyproject.toml` dependencies (see [Installation](#option-2-declare-it-as-a-dependency-in-your-flet-app)), then run:
@@ -549,14 +575,14 @@ flet-code-editor-dsl/
 - **Highlighting is recomputed on each rebuild.** Very large documents with many rules may reduce typing performance.
 - **Plain text editing only.** Line numbers, code folding, auto-indent and autocompletion are not included.
 - **Dart regex semantics.** Patterns must be valid for Dart's `RegExp`; invalid patterns are ignored without an error message.
-- **Client rebuild required.** As with all Flet extensions, the control is not available in the stock Flet client.
+- **First build required.** As with all Flet extensions, the control is not available in the stock Flet client. Declare the library in `pyproject.toml` and build the app once; after that it also works with `flet run`.
 - **Minimum height.** The editor shows at least 12 lines.
 
 ## Troubleshooting
 
 | Symptom | Likely cause and fix |
 |---------|----------------------|
-| The editor does not appear, or an "unknown control" error is shown | The app is running with a stock Flet client. Build with `flet build`, or ensure the extension is registered in your custom client. |
+| The editor does not appear, or an "unknown control" error is shown | The library is not declared in your app's `pyproject.toml`, or the app has not been built once with it. Add it to `dependencies`, then run `flet build`. |
 | Text is hard to see | `default_color` defaults to black while the background is dark. Set `default_color` (for example `#D4D4D4`) or change `background_color`. |
 | A rule has no effect | Its regex may be invalid for Dart, or a later rule overrides it. Simplify the pattern and check rule order. |
 | Everything is red | `strict=True` is set and some text is not covered by any rule. Add rules for whitespace, operators and punctuation, or disable strict mode. |
