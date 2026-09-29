@@ -1,6 +1,5 @@
-# flet-code-editor-dsl or FletCodeEditorDSL
-
-> A real Flutter code editor exposed as a [Flet](https://flet.dev) control, with a small Python DSL for defining syntax-highlighting rules and bracket/quote pair matching.
+# flet-code-editor-dsl
+> FletCodeEditorDSL: A real Flutter code editor exposed as a [Flet](https://flet.dev) control, with a small Python DSL for defining syntax-highlighting rules and bracket/quote pair matching.
 
 ![Python](https://img.shields.io/badge/python-%3E%3D3.10-blue)
 ![Flet](https://img.shields.io/badge/flet-%3E%3D0.80-informational)
